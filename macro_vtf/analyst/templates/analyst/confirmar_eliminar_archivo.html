@@ -1,0 +1,13 @@
+{% extends "analyst/base.html" %}
+{% block title %}Confirmar eliminación{% endblock %}
+
+{% block content %}
+<h2>Confirmar eliminación</h2>
+<p>¿Está seguro que desea eliminar el archivo <strong>{{ archivo.archivo.name|slice:"10:" }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">Sí, eliminar</button>
+  <a href="{% url 'listar_archivos_subidos' %}" class="ml-4">Cancelar</a>
+</form>
+{% endblock %}

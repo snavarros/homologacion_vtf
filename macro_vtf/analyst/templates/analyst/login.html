@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Iniciar sesión</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Iniciar sesión</h2>
+
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="mb-6">
+        <label for="{{ form.username.id_for_label }}" class="block mb-2 text-gray-700 font-medium">
+          {{ form.username.label }}
+        </label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.username.errors }}</p>
+        {% endif %}
+      </div>
+
+      <div class="mb-6">
+        <label for="{{ form.password.id_for_label }}" class="block mb-2 text-gray-700 font-medium">
+          {{ form.password.label }}
+        </label>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ form.password.errors }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-4 rounded-lg transition-colors duration-300">
+        Ingresar
+      </button>
+    </form>
+  </div>
+
+  <style>
+    input[type="text"],
+    input[type="password"] {
+      @apply w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600;
+      background-color: #f3f4f6 !important; /* Tailwind bg-gray-100 */
+      padding-top: 1.25rem;
+      padding-left: 1.25rem;
+      padding-bottom: 1.25rem;
+      font-size: 1.125rem; /* 18px */
+      height: 2.0rem; /* 56px */
+      width: 100%;
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema de Archivos{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col">
+{% if user.is_authenticated %}
+    <!-- Header -->
+    <header class="bg-gray-800 text-white p-4 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><a href="{% url 'dashboard' %}" class="hover:none">Homologacion</a></h1>
+            <nav class="flex gap-4 items-center">
+                
+                <span>Bienvenido, {{ user.username }} |</span>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="hover:underline text-white">Salir</button>
+                </form>
+            </nav>
+            
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center p-4 mt-10">
+        <p>&copy; 2025 Macro VTF. Todos los derechos reservados.</p>
+    </footer>
+
+{% else %}
+    {% include "analyst/login.html" %}
+{% endif %}
+</body>
+</html>

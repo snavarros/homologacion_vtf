@@ -1,0 +1,46 @@
+{% extends "analyst/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+ 
+<h2 class="text-4xl font-extrabold mb-6">Centro de Funcionalidades</h2>
+
+<p class="mb-8">Desde aquí puedes acceder a las funcionalidades del sistema.</p>
+
+<ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <li>
+        <a href="{% url 'subir_planilla_validadora' %}" 
+           class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <!-- Icono centrado -->
+            <div class="text-5xl mb-4">
+                📄
+            </div>
+            <span class="text-lg font-semibold text-gray-800">Subir Planilla Validadora</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'listar_archivos_subidos' %}" 
+           class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <div class="text-5xl mb-4">📂</div>
+            <span class="text-lg font-semibold text-gray-800">Mis Archivos Subidos</span>
+        </a>
+    </li>
+    
+    {% if user.is_superuser %}
+    <li>
+        <a href="{% url 'consolidar_archivos' %}" 
+           class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <div class="text-5xl mb-4">
+                🔄
+            </div>
+            <span class="text-lg font-semibold text-gray-800">Consolidar Archivos</span>
+        </a>
+    </li>
+    {% endif %}
+</ul>
+
+{% endblock %}
+<div/>

@@ -1,0 +1,32 @@
+.venv
+
+__pycache__/
+
+# Archivos de sistema y editores
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+
+ENV/
+
+# Archivos de bases de datos locales
+db.sqlite3
+
+# Archivos subidos por usuarios (media)
+media/
+
+# Carpeta de salida de archivos estáticos compilados
+staticfiles/
+
+# Archivos de logs
+*.log
+
+# Entornos virtuales
+.env
+.env.*
+
+# Si tienes node_modules (frontend)
+node_modules/

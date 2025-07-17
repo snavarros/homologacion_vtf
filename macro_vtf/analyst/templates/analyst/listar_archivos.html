@@ -1,0 +1,63 @@
+{% extends "analyst/base.html" %}
+
+{% block title %}Mis Archivos Subidos{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center p-6 bg-gray-50">
+  <h2 class="text-2xl font-semibold mb-6">Mis Archivos Subidos</h2>
+
+  {% if detalles_validacion %}
+    <div class="mb-6 p-4 bg-red-100 border border-red-300 rounded text-red-800 font-semibold max-w-2xl">
+      <ul class="list-disc list-inside">
+        {% for detalle in detalles_validacion %}
+          <li>{{ detalle }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if archivos %}
+    <table class="table-auto border-collapse border border-gray-300 max-w-3xl w-full bg-white rounded shadow">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 px-4 py-2">Archivo</th>
+          <th class="border border-gray-300 px-4 py-2">Año</th>
+          <th class="border border-gray-300 px-4 py-2">Mes</th>
+          <th class="border border-gray-300 px-4 py-2">Fecha Subida</th>
+          <th class="border border-gray-300 px-4 py-2">Descargar</th>
+          <th class="border border-gray-300 px-4 py-2">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for archivo in archivos %}
+        <tr>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.archivo.name|slice:"10:" }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.anio }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.mes }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.creado|date:"Y-m-d H:i" }}</td>
+          <td class="border border-gray-300 px-4 py-2 text-center">
+            <a href="{{ archivo.archivo.url }}" class="text-blue-600 hover:underline" download>Descargar</a>
+          </td>
+          <td class="border border-gray-300 px-4 py-2 text-center">
+            {% now "Y" as year_now %}
+            {% now "n" as month_now %}
+            {% if archivo.anio|stringformat:"s" == year_now and archivo.mes|stringformat:"s" == month_now %}
+              <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">Eliminar</button>
+              </form>
+            {% else %}
+              <span class="text-gray-400 italic text-sm">No permitido</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-gray-600">No tienes archivos subidos.</p>
+  {% endif %}
+
+  <a href="{% url 'subir_planilla_validadora' %}" class="mt-6 inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Subir nuevo archivo</a>
+</div>
+{% endblock %}
