@@ -1,13 +1,13 @@
 {% extends 'analyst/base.html' %}
 {% load static %}
 
-{% block title %}Subir Archivo{% endblock %}
+{% block title %}Cargar Archivo{% endblock %}
 
 {% block content %}
 <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
   <div class="max-w-2xl w-full p-6 bg-white rounded shadow-md">
 
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Subir Planilla Mensual</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Cargar Planilla Mensual</h2>
 
     {# Mensajes de éxito o error #}
     {% if estado_subida == 'exito' %}
@@ -18,20 +18,24 @@
         <p>Serás redirigido en <span id="contador">20</span> segundos...</p>
       </div>
     {% elif estado_subida == 'error' %}
-      <div class="mb-6 p-4 bg-red-100 border border-red-300 rounded text-red-800 font-semibold">
-        <p class="mb-2">Se han encontrado los siguientes errores:</p>
-        <ul class="list-disc list-inside">
+      <div class="mb-6 p-4 bg-orange-50 border border-orange-300 rounded text-orange-800 font-semibold shadow-sm">
+        <p class="mb-3 flex items-center gap-2 text-lg font-semibold">
+          <span class="text-xl">⚠️</span> Se han encontrado los siguientes errores:
+        </p>
+        <div class="space-y-3">
           {% for detalle in detalles_validacion %}
-            <li>{{ detalle }}</li>
+            <p class="whitespace-pre-line text-sm leading-relaxed">{{ detalle|safe }}</p>
           {% endfor %}
-        </ul>
+        </div>
         {% if archivo_existe %}
-          <p class="mt-4 font-semibold">
-            Ya existe un archivo para esta combinación. Debe eliminarlo desde la página de <a href="{% url 'listar_archivos' %}" class="underline text-blue-600 hover:text-blue-800">archivos subidos</a> antes de volver a subir uno nuevo.
+          <p class="mt-4 font-semibold text-orange-900">
+            Ya existe un archivo para esta combinación. Debe eliminarlo desde la página de
+            <a href="{% url 'listar_archivos' %}" class="underline text-orange-700 hover:text-orange-900">archivos subidos</a>
+            antes de volver a subir uno nuevo.
           </p>
         {% endif %}
       </div>
-    {% endif %}
+{% endif %}
 
     {# Formulario normal para subir archivo #}
     <form method="post" enctype="multipart/form-data" class="space-y-6" id="form-subir">
@@ -67,10 +71,10 @@
           <button type="submit" id="submit-btn" disabled
             class="bg-gray-400 text-white px-6 py-2 rounded cursor-not-allowed"
           >
-              Subir Archivo
+              Cargar Archivo
           </button>
 
-          <a href="{% static 'plantillas/planilla_validadora_template.xlsx' %}" download
+          <a href="{% static 'plantillas/plantilla_validadora.xlsx' %}" download
              class="inline-block border-2 border-dashed border-gray-400 text-gray-600 px-4 py-2 rounded hover:bg-gray-100 transition text-center select-none"
              title="Descarga la plantilla oficial Excel">
               📥 Descargar plantilla oficial

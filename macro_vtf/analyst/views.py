@@ -107,7 +107,7 @@ def subir_planilla_validadora(request):
                     if existe:
                         estado_subida = "error"
                         detalles_validacion.append(
-                            "Ya existe un archivo para esta combinación. Debe eliminarlo primero desde la página de archivos subidos."
+                            "Ya existe un archivo para el mes y año seleccionado. Si desea reemplazarlo debe eliminarlo en la seccion Archivos Subidos."
                         )
                     else:
                         # Guardar nuevo archivo
@@ -263,12 +263,22 @@ def consolidar_archivos(request):
 
 @login_required
 def eliminar_archivo_subido(request, archivo_id):
-    archivo = get_object_or_404(ArchivoSubido, id=archivo_id, usuario=request.user)
-    ahora = timezone.now()
+    archivo = get_object_or_404(ArchivoSubido, id=archivo_id)
 
-    if archivo.anio != ahora.year or archivo.mes != ahora.month:
-        messages.error(request, "Solo puede eliminar archivos del mes y año actual.")
-        return redirect("listar_archivos_subidos")
+    # Solo permite eliminar si:
+    # - El usuario es el dueño del archivo Y está dentro del mes/año actual
+    # - O si es superusuario (admin), sin restricciones
+    if not request.user.is_superuser:
+        if archivo.usuario != request.user:
+            messages.error(request, "No tienes permiso para eliminar este archivo.")
+            return redirect("listar_archivos_subidos")
+
+        ahora = timezone.now()
+        if archivo.anio != ahora.year or archivo.mes != ahora.month:
+            messages.error(
+                request, "Solo puede eliminar archivos del mes y año actual."
+            )
+            return redirect("listar_archivos_subidos")
 
     if request.method == "POST":
         # Borrar archivo físico
@@ -278,7 +288,6 @@ def eliminar_archivo_subido(request, archivo_id):
         messages.success(request, "Archivo eliminado correctamente.")
         return redirect("listar_archivos_subidos")
 
-    # Opcional: mostrar página de confirmación, o redirigir directamente
     return render(
         request, "analyst/confirmar_eliminar_archivo.html", {"archivo": archivo}
     )

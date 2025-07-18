@@ -20,10 +20,10 @@
     <table class="table-auto border-collapse border border-gray-300 max-w-3xl w-full bg-white rounded shadow">
       <thead>
         <tr>
-          <th class="border border-gray-300 px-4 py-2">Archivo</th>
-          <th class="border border-gray-300 px-4 py-2">Año</th>
-          <th class="border border-gray-300 px-4 py-2">Mes</th>
           <th class="border border-gray-300 px-4 py-2">Fecha Subida</th>
+          <th class="border border-gray-300 px-4 py-2">Mes</th>
+          <th class="border border-gray-300 px-4 py-2">Año</th>
+          <th class="border border-gray-300 px-4 py-2">Archivo</th>
           <th class="border border-gray-300 px-4 py-2">Descargar</th>
           <th class="border border-gray-300 px-4 py-2">Eliminar</th>
         </tr>
@@ -31,25 +31,28 @@
       <tbody>
         {% for archivo in archivos %}
         <tr>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.archivo.name|slice:"10:" }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.anio }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.creado|date:"d-m-Y H:i" }}</td>
           <td class="border border-gray-300 px-4 py-2">{{ archivo.mes }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.creado|date:"Y-m-d H:i" }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.anio }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ archivo.archivo.name|slice:"10:" }}</td>
           <td class="border border-gray-300 px-4 py-2 text-center">
             <a href="{{ archivo.archivo.url }}" class="text-blue-600 hover:underline" download>Descargar</a>
           </td>
           <td class="border border-gray-300 px-4 py-2 text-center">
-            {% now "Y" as year_now %}
-            {% now "n" as month_now %}
-            {% if archivo.anio|stringformat:"s" == year_now and archivo.mes|stringformat:"s" == month_now %}
-              <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
-                {% csrf_token %}
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">Eliminar</button>
-              </form>
-            {% else %}
-              <span class="text-gray-400 italic text-sm">No permitido</span>
-            {% endif %}
+            {% with archivo.anio|stringformat:"s" as anio_str %}
+              {% with archivo.mes|stringformat:"s" as mes_str %}
+                {% if anio_str == year_now and mes_str == month_now or user.is_superuser %}
+                  <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded">Eliminar</button>
+                  </form>
+                {% else %}
+                  <span class="text-gray-400 italic text-sm">No permitido</span>
+                {% endif %}
+              {% endwith %}
+            {% endwith %}
           </td>
+
         </tr>
         {% endfor %}
       </tbody>

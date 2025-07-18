@@ -20,6 +20,10 @@ class PlanillaValidadoraForm(forms.ModelForm):
         (12, "Diciembre"),
     ]
 
+    ahora = datetime.date.today()
+    ANIOS_CHOICES = [(anio, anio) for anio in range(2018, ahora.year + 2)]
+
+    anio = forms.ChoiceField(choices=ANIOS_CHOICES)
     mes = forms.ChoiceField(choices=MESES_CHOICES)
 
     class Meta:
@@ -29,17 +33,15 @@ class PlanillaValidadoraForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Año y mes actuales
         ahora = datetime.date.today()
         anio_actual = ahora.year
         mes_actual = ahora.month
 
-        # Sólo asignar initial si no hay datos POST (no sobreescribir en edición o envío)
         if not self.data:
             self.fields["anio"].initial = anio_actual
             self.fields["mes"].initial = mes_actual
 
-        # Agregar clases Tailwind a widgets
+        # Tailwind styles
         self.fields["anio"].widget.attrs.update(
             {
                 "class": "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
