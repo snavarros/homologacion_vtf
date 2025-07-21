@@ -28,6 +28,16 @@
             <span class="text-lg font-semibold text-gray-800">Mis Archivos Subidos</span>
         </a>
     </li>
+
+    <li>
+        <a href="{% url 'consolidar_semestre_anterior' %}" 
+           class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <div class="text-5xl mb-4">
+                📊
+            </div>
+            <span class="text-lg font-semibold text-gray-800">Generar Cálculos</span>
+        </a>
+    </li>
     
     {% if user.is_superuser %}
     <li>
@@ -39,6 +49,17 @@
             <span class="text-lg font-semibold text-gray-800">Consolidar Archivos</span>
         </a>
     </li>
+
+    <li>
+        <a href="{% url 'subir_parametro_remuneracional' %}" 
+        class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <div class="text-5xl mb-4">
+                💰 
+            </div>
+            <span class="text-lg font-semibold text-gray-800">Subir Parámetro Remuneracional</span>
+        </a>
+    </li>
+    
     {% endif %}
 </ul>
 

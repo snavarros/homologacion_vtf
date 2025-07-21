@@ -1,0 +1,23 @@
+{% extends "analyst/base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow">
+  <h2 class="text-2xl font-bold mb-4">Subir Parámetro Remuneracional</h2>
+
+  {% if mensaje %}
+    <p class="text-red-600 mb-4">{{ mensaje }}</p>
+  {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+      <p class="text-green-600 mb-4">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Subir archivo
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -44,3 +44,18 @@ class ArchivoSubido(models.Model):
 
     class Meta:
         unique_together = ("usuario", "region", "anio", "mes", "proceso")
+
+
+def parametro_remuneracional_path(instance, filename):
+    anio = instance.anio
+    return f"DIRNAC/PR/parametro_remuneracional_{anio}.csv"
+
+
+class ParametroRemuneracional(models.Model):
+    anio = models.IntegerField(unique=True)
+    archivo = models.FileField(upload_to=parametro_remuneracional_path)
+    creado = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)  # quién subió
+
+    def __str__(self):
+        return f"Parámetro Remuneracional {self.anio}"

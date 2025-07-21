@@ -34,4 +34,14 @@ urlpatterns = [
         views.eliminar_archivo_subido,
         name="eliminar_archivo_subido",
     ),
+    path(
+        "consolidar/semestre-anterior/",
+        views.consolidar_semestre_anterior,
+        name="consolidar_semestre_anterior",
+    ),
+    path(
+        "subir-parametro-remuneracional/",
+        views.subir_parametro_remuneracional,
+        name="subir_parametro_remuneracional",
+    ),
 ]

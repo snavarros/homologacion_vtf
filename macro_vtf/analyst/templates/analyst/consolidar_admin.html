@@ -1,15 +1,60 @@
 {% extends "analyst/base.html" %}
-{% block title %}Consolidar Archivos{% endblock %}
-
 {% block content %}
-<h2>Consolidar Archivos por Mes / Año / Región</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Descargar Consolidado</button>
-</form>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+  <div class="bg-white rounded shadow-lg max-w-md w-full p-6">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Consolidar Archivos</h2>
 
-{% if mensaje %}
-    <p style="color:green;">{{ mensaje }}</p>
-{% endif %}
+    {% if mensaje %}
+      <p class="mb-4 text-red-600 font-semibold text-center">{{ mensaje }}</p>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      
+      <div class="mb-4">
+        {{ form.anio.label_tag }}
+        {{ form.anio }}
+        {% for error in form.anio.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="mb-4">
+        {{ form.mes_inicio.label_tag }}
+        {{ form.mes_inicio }}
+        {% for error in form.mes_inicio.errors %}
+            <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+        </div>
+
+        <div class="mb-4">
+        {{ form.mes_termino.label_tag }}
+        {{ form.mes_termino }}
+        {% for error in form.mes_termino.errors %}
+            <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+        </div>
+
+      <div class="mb-4">
+        {{ form.region.label_tag }}
+        {{ form.region }}
+        {% for error in form.region.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="mb-6">
+        {{ form.proceso.label_tag }}
+        {{ form.proceso }}
+        {% for error in form.proceso.errors %}
+          <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-300">
+        Consolidar y Descargar Excel
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}
