@@ -501,3 +501,8 @@ def subir_parametro_remuneracional(request):
         "analyst/subir_parametro_remuneracional.html",
         {"form": form, "mensaje": mensaje},
     )
+
+
+@login_required
+def diccionario_planilla_validadora(request):
+    return render(request, "analyst/diccionario_planilla_validadora.html")

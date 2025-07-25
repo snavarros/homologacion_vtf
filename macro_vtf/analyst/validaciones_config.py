@@ -125,14 +125,36 @@ VALID_RANGES = {
         "CODIGO_ESTABLECIMIENTO": (1_000_000, 16_999_999),
         "ANIO": (2013, 2030),
         "MES": (1, 12),
+        "GRUPO": (1, 11),
         "FECHA_NACIMIENTO": ("1950-01-01", "2010-12-31"),
+        "ANIOS_SERVICIO_CON_EMPLEADOR": (0, 100),
+        "JORNADA_HORAS": (0, 44),
+        "DIAS_LICENCIA_MEDICA": (0, 30),
+        "DIAS_SIN_GOCE_SUELDO": (0, 30),
+        "TOTAL_DIAS_TRABAJADOS": (0, 30),
+        "TOTAL_DIAS_PAGADOS": (0, 30),
     }
 }
 
 VALID_VALUES = {
     "planilla_validadora": {
+        "CARGO": {
+            "allowed": [
+                "administrativo",
+                "auxiliar",
+                "tecnico",
+                "educadora",
+                "directora",
+            ],
+        },
         "NIVEL_ATENCION": {
             "allowed": ["sala cuna", "medio menor", "medio mayor", "transicion"],
+        },
+        "PLAZO_CONTRATO": {
+            "allowed": ["plazo fijo", "indefinido"],
+        },
+        "TIPO_CONTRATO": {
+            "allowed": ["codigo del trabajo", "estatuto administrativo"],
         },
     }
 }

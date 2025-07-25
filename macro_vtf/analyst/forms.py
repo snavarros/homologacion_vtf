@@ -75,7 +75,7 @@ class ConsolidarForm(forms.Form):
         if not self.data:
             self.fields["anio"].initial = str(hoy.year)
             self.fields["mes_inicio"].initial = f"{hoy.month:02d}"
-            self.fields["mes_termino"].initial = f"{hoy.month:02d}"
+            self.fields["mes_termino"].initial = f"{hoy.month}"
             self.fields["proceso"].initial = "planilla_validadora"
 
         for field in self.fields.values():

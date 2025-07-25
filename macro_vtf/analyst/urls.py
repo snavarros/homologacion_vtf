@@ -44,4 +44,9 @@ urlpatterns = [
         views.subir_parametro_remuneracional,
         name="subir_parametro_remuneracional",
     ),
+    path(
+        "diccionario-planilla-validadora/",
+        views.diccionario_planilla_validadora,
+        name="diccionario_planilla_validadora",
+    ),
 ]
