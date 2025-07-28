@@ -496,11 +496,30 @@ def subir_parametro_remuneracional(request):
     else:
         form = ParametroRemuneracionalForm()
 
+    parametros = ParametroRemuneracional.objects.all().order_by("-anio")
     return render(
         request,
         "analyst/subir_parametro_remuneracional.html",
-        {"form": form, "mensaje": mensaje},
+        {"form": form, "mensaje": mensaje, "parametros": parametros},
     )
+
+
+@staff_member_required
+def eliminar_parametro_remuneracional(request, pk):
+    from .models import ParametroRemuneracional
+
+    parametro = get_object_or_404(ParametroRemuneracional, pk=pk)
+
+    # Elimina el archivo físico del disco
+    if parametro.archivo:
+        if os.path.isfile(parametro.archivo.path):
+            os.remove(parametro.archivo.path)
+
+    parametro.delete()
+    messages.success(
+        request, f"Archivo del año {parametro.anio} eliminado correctamente."
+    )
+    return redirect("subir_parametro_remuneracional")
 
 
 @login_required

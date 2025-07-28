@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from django import forms
 
 from .utils import MESES_CHOICES
@@ -150,7 +150,7 @@ class SemestreAnteriorForm(forms.Form):
 
 class ParametroRemuneracionalForm(forms.Form):
     anio = forms.ChoiceField(
-        choices=[(str(y), str(y)) for y in range(2018, date.today().year + 2)],
+        choices=[(str(y), str(y)) for y in range(2020, date.today().year + 2)],
         label="Año",
     )
     archivo = forms.FileField(
@@ -161,3 +161,8 @@ class ParametroRemuneracionalForm(forms.Form):
             }
         ),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.is_bound:
+            self.fields["anio"].initial = datetime.now().year

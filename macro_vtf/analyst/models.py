@@ -55,7 +55,7 @@ class ParametroRemuneracional(models.Model):
     anio = models.IntegerField(unique=True)
     archivo = models.FileField(upload_to=parametro_remuneracional_path)
     creado = models.DateTimeField(auto_now_add=True)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)  # quién subió
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Parámetro Remuneracional {self.anio}"

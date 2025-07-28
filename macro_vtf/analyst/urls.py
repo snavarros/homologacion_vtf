@@ -45,6 +45,11 @@ urlpatterns = [
         name="subir_parametro_remuneracional",
     ),
     path(
+        "parametro_remuneracional/eliminar/<int:pk>/",
+        views.eliminar_parametro_remuneracional,
+        name="eliminar_parametro_remuneracional",
+    ),
+    path(
         "diccionario-planilla-validadora/",
         views.diccionario_planilla_validadora,
         name="diccionario_planilla_validadora",

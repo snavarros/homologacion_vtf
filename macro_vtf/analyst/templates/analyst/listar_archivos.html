@@ -5,8 +5,8 @@
 {% block content %}
 <div class="min-h-screen flex flex-col items-center p-6 bg-gray-50">
   <!-- Título y botón alineados horizontalmente -->
-  <div class="w-full max-w-4xl flex items-center justify-between mb-6">
-    <h2 class="text-2xl font-semibold text-gray-800">Mis Archivos Subidos</h2>
+  <div class="w-full max-w-4xl flex items-center justify-between mb-10">
+    <h2 class="text-2xl font-semibold text-gray-800">📂 Mis Archivos Subidos</h2>
     <a href="{% url 'subir_planilla_validadora' %}" title="Subir nuevo archivo"
        class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white hover:bg-blue-700 shadow-md transition duration-200">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
@@ -28,52 +28,56 @@
   {% endif %}
 
   {% if archivos %}
-    <table class="table-auto border-collapse border border-gray-300 max-w-3xl w-full bg-white rounded shadow text-sm">
-      <thead class="bg-gray-100 text-gray-700">
+  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg px-4 py-2">
+    
+    <table class="w-full text-sm text-left text-gray-700 table-auto">
+      <thead class="bg-white border-b border-gray-200">
         <tr>
-          <th class="border border-gray-300 px-4 py-2 text-left whitespace-nowrap">Fecha Subida</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Mes</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Año</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Archivo</th>
-          <th class="border border-gray-300 px-4 py-2 text-center">Descargar</th>
-          <th class="border border-gray-300 px-4 py-2 text-center">Eliminar</th>
+          <th class="px-4 py-3 font-semibold whitespace-nowrap">📅 Fecha</th>
+          <th class="px-4 py-3 font-semibold">Mes</th>
+          <th class="px-4 py-3 font-semibold">Año</th>
+          <th class="px-4 py-3 font-semibold">Archivo</th>
+          <th class="px-4 py-3 text-center font-semibold">Descargar</th>
+          <th class="px-4 py-3 text-center font-semibold">Eliminar</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="divide-y divide-gray-100">
         {% for archivo in archivos %}
-        <tr class="hover:bg-gray-50">
-          <td class="border border-gray-300 px-4 py-2 whitespace-nowrap">{{ archivo.creado|date:"d-m-Y H:i" }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.mes|stringformat:"02d" }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.anio }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ archivo.archivo.name|slice:"16:" }}</td>
-          <td class="border border-gray-300 px-4 py-2 text-center">
-            <a href="{{ archivo.archivo.url }}" class="text-blue-600 hover:underline" download>Descargar</a>
-          </td>
-          <td class="border border-gray-300 px-4 py-2 text-center">
-            {% with archivo.anio|stringformat:"s" as anio_str %}
-              {% with archivo.mes|stringformat:"02d" as mes_str %}
-                {% if anio_str == year_now and mes_str == month_now %}
-                  <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
-                    {% csrf_token %}
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Eliminar</button>
-                  </form>
-                {% elif user.is_superuser %}
-                  <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
-                    {% csrf_token %}
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Eliminar</button>
-                  </form>
-                {% else %}
-                  <span class="text-gray-400 italic text-sm">No permitido</span>
-                {% endif %}
+          <tr class="hover:bg-gray-50 transition duration-200">
+            <td class="px-4 py-3 whitespace-nowrap text-gray-800">{{ archivo.creado|date:"d-m-Y H:i" }}</td>
+            <td class="px-4 py-3">{{ archivo.mes|stringformat:"02d" }}</td>
+            <td class="px-4 py-3">{{ archivo.anio }}</td>
+            <td class="px-4 py-3 max-w-xs truncate text-gray-600">
+              <span title="{{ archivo.archivo.name }}">{{ archivo.archivo.name|slice:"16:" }}</span>
+            </td>
+            <td class="px-4 py-3 text-center">
+              <a href="{{ archivo.archivo.url }}" class="text-blue-600 hover:underline font-medium" download>
+                Descargar
+              </a>
+            </td>
+            <td class="px-4 py-3 text-center">
+              {% with archivo.anio|stringformat:"s" as anio_str %}
+                {% with archivo.mes|stringformat:"02d" as mes_str %}
+                  {% if anio_str == year_now and mes_str == month_now or user.is_superuser %}
+                    <form method="post" action="{% url 'eliminar_archivo_subido' archivo.id %}" onsubmit="return confirm('¿Está seguro que desea eliminar este archivo?');">
+                      {% csrf_token %}
+                      <button type="submit" class="text-white bg-red-600 hover:bg-red-700 rounded-full px-4 py-1 text-sm shadow transition">
+                        Eliminar
+                      </button>
+                    </form>
+                  {% else %}
+                    <span class="text-gray-400 italic text-sm">No permitido</span>
+                  {% endif %}
+                {% endwith %}
               {% endwith %}
-            {% endwith %}
-          </td>
-        </tr>
+            </td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
-  {% else %}
-    <p class="text-gray-600 mt-6">No tienes archivos subidos.</p>
-  {% endif %}
-</div>
+  </div>
+{% else %}
+  <p class="text-gray-600 mt-6">No tienes archivos subidos.</p>
+{% endif %}
+    </div>
 {% endblock %}
