@@ -17,13 +17,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from analyst import views as analyst_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from analyst.views.dashboard import index
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", analyst_views.index, name="index"),
+    path("", index, name="index"),
     path("", include("analyst.urls")),
 ]
 

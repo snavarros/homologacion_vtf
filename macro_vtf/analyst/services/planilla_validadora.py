@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 from collections import defaultdict
-from .validaciones_config import (
+from ..constants.validaciones_config import (
     VALID_COLUMNS,
     VALID_TYPES,
     VALID_RANGES,
@@ -34,6 +34,28 @@ class PlanillaValidadora:
             return df
         except Exception as e:
             return f"Error al leer archivo: {str(e)}"
+
+    def _validar_anio_mes(self, df, anio_esperado, mes_esperado):
+        # Validar existencia de columnas
+        if "ANIO" not in df.columns:
+            self.errores.append("Falta la columna 'ANIO'.")
+            return
+        if "MES" not in df.columns:
+            self.errores.append("Falta la columna 'MES'.")
+            return
+
+        # Filtrar valores distintos
+        anios_distintos = df.loc[df["ANIO"] != int(anio_esperado), "ANIO"].unique()
+        meses_distintos = df.loc[df["MES"] != int(mes_esperado), "MES"].unique()
+
+        if len(anios_distintos) > 0:
+            self.errores.append(
+                f"Se encontraron valores de ANIO distintos a {anio_esperado}: {list(anios_distintos)}"
+            )
+        if len(meses_distintos) > 0:
+            self.errores.append(
+                f"Se encontraron valores de MES distintos a {mes_esperado}: {list(meses_distintos)}"
+            )
 
     def _limpiar_dataframe(self, df):
         for col in df.select_dtypes(include=["object"]).columns:
@@ -82,8 +104,10 @@ class PlanillaValidadora:
             else:
                 df.at[i, col] = rut_validado  # Normaliza el RUT
 
-    def validar(self, df: pd.DataFrame):
+    def validar(self, df: pd.DataFrame, anio_esperado=None, mes_esperado=None):
         self._validar_columnas(df)
+        if anio_esperado is not None and mes_esperado is not None:
+            self._validar_anio_mes(df, anio_esperado, mes_esperado)
         self._validar_rut(df)
         self._validar_tipos(df)
         self._validar_rangos(df)

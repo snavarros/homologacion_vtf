@@ -15,26 +15,16 @@
            class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
             <!-- Icono centrado -->
             <div class="text-5xl mb-4">
-                📄
+                🗂️
             </div>
             <span class="text-lg font-semibold text-gray-800">Cargar Planilla</span>
         </a>
     </li>
 
     <li>
-        <a href="{% url 'diccionario_planilla_validadora' %}" 
-        class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
-            <div class="text-5xl mb-4">
-                📘
-            </div>
-            <span class="text-lg font-semibold text-gray-800">Diccionario Planilla Validadora</span>
-        </a>
-    </li>
-
-    <li>
         <a href="{% url 'listar_archivos_subidos' %}" 
            class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
-            <div class="text-5xl mb-4">📂</div>
+            <div class="text-5xl mb-4">🗃️</div>
             <span class="text-lg font-semibold text-gray-800">Mis Archivos Subidos</span>
         </a>
     </li>
@@ -43,9 +33,19 @@
         <a href="{% url 'consolidar_semestre_anterior' %}" 
            class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
             <div class="text-5xl mb-4">
-                🧮
+                💵
             </div>
             <span class="text-lg font-semibold text-gray-800">Calcular Homologación</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'diccionario_planilla_validadora' %}" 
+        class="block bg-white border border-gray-300 rounded-lg shadow-sm p-6 text-center hover:shadow-lg hover:bg-gray-50 transition">
+            <div class="text-5xl mb-4">
+                📒
+            </div>
+            <span class="text-lg font-semibold text-gray-800">Diccionario Planilla Validadora</span>
         </a>
     </li>
     

@@ -1,8 +1,7 @@
 {% extends "analyst/base.html" %}
 {% block content %}
 <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow">
-  <h2 class="text-2xl font-bold mb-4">💰 Subir Parámetro Remuneracional</h2>
-  Los archivos bla bla
+  <h2 class="text-2xl font-bold mb-4">💰 Subir Parámetro Remuneracional (PR)</h2>
 
   {% if mensaje %}
     <p class="text-red-600 mb-4">{{ mensaje }}</p>
@@ -20,6 +19,11 @@
       Subir archivo
     </button>
   </form>
+  <p class="text-gray-500 mt-4"> 
+    <b>* ParametroRemuneracional 2026 </b> = 2025 al 2026 </br> 
+    <b>* ParametroRemuneracional 2025 </b> = 2024 al 2025 </br>
+    <b>* ParametroRemuneracional 2024 </b> = 2023 al 2024
+  </p>
 </div>
 <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-xl shadow">
   <h3 class="text-xl font-semibold mb-2">📄 Archivos Subidos</h3>
