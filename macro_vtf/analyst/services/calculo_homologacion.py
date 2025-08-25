@@ -39,10 +39,22 @@ class CalculoHomologacion:
     def agregar_columna_region(self):
         for idx, row in self.df_base.iterrows():
             try:
-                codigo = str(row["CODIGO_ESTABLECIMIENTO"])
-                self.df_base.at[idx, "REGION"] = int(codigo[:2])
-            except Exception:
-                self._log(idx, "Error calculando región;")
+                codigo = str(row["CODIGO_ESTABLECIMIENTO"]).strip()
+
+                if not codigo.isdigit():
+                    raise ValueError(f"Código no numérico: {codigo}")
+
+                if len(codigo) == 7:
+                    region = int(codigo[0])  # Primer dígito
+                elif len(codigo) == 8:
+                    region = int(codigo[:2])  # Primeros dos dígitos
+                else:
+                    raise ValueError(f"Longitud inválida: {codigo}")
+
+                self.df_base.at[idx, "REGION"] = region
+
+            except Exception as e:
+                self._log(idx, f"Error calculando región; {e}")
 
     def agregar_fecha(self):
         self.df_base["FECHA"] = self.fecha_referencia

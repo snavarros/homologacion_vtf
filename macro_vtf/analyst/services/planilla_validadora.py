@@ -44,17 +44,36 @@ class PlanillaValidadora:
             self.errores.append("Falta la columna 'MES'.")
             return
 
-        # Filtrar valores distintos
-        anios_distintos = df.loc[df["ANIO"] != int(anio_esperado), "ANIO"].unique()
-        meses_distintos = df.loc[df["MES"] != int(mes_esperado), "MES"].unique()
+        # Convertir a int por seguridad
+        df["ANIO"] = df["ANIO"].astype(int, errors="ignore")
+        df["MES"] = df["MES"].astype(int, errors="ignore")
 
-        if len(anios_distintos) > 0:
+        # Validar unicidad
+        anios_unicos = df["ANIO"].unique()
+        meses_unicos = df["MES"].unique()
+
+        if len(anios_unicos) > 1:
             self.errores.append(
-                f"Se encontraron valores de ANIO distintos a {anio_esperado}: {list(anios_distintos)}"
+                f"Se encontraron múltiples valores de ANIO en la planilla: {list(anios_unicos)}. "
+                f"Debe ser único y coincidir con {anio_esperado}."
             )
-        if len(meses_distintos) > 0:
+        if len(meses_unicos) > 1:
             self.errores.append(
-                f"Se encontraron valores de MES distintos a {mes_esperado}: {list(meses_distintos)}"
+                f"Se encontraron múltiples valores de MES en la planilla: {list(meses_unicos)}. "
+                f"Debe ser único y coincidir con {mes_esperado}."
+            )
+
+        # Validar contra los esperados
+        if not all(df["ANIO"] == int(anio_esperado)):
+            self.errores.append(
+                f"El valor de ANIO no coincide con el esperado ({anio_esperado}). "
+                f"Valores encontrados: {list(anios_unicos)}"
+            )
+
+        if not all(df["MES"] == int(mes_esperado)):
+            self.errores.append(
+                f"El valor de MES no coincide con el esperado ({mes_esperado}). "
+                f"Valores encontrados: {list(meses_unicos)}"
             )
 
     def _limpiar_dataframe(self, df):

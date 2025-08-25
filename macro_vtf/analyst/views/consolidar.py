@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from analyst.forms import ConsolidarForm, SemestreAnteriorForm
 from analyst.models import ArchivoSubido, Region
-from analyst.services.calculo_homologacion import CalculoHomologacion
+from analyst.views.helpers import calcular_homologacion
 
 
 @staff_member_required
@@ -161,11 +161,11 @@ def consolidar_semestre_anterior(request):
                     f"{m[1]}/{m[0]}" for m in sorted(meses_faltantes)
                 )
                 mensaje = f"No se puede realizar el cálculo ya que no tiene los meses solicitados: {faltantes_str}."
-                # return render(
-                #     request,
-                #     "analyst/consolidar_semestre.html",
-                #     {"form": form, "mensaje": mensaje},
-                # )
+                return render(
+                    request,
+                    "analyst/consolidar_semestre.html",
+                    {"form": form, "mensaje": mensaje},
+                )
 
             # Consolidar archivos en un DataFrame
             dfs = []
@@ -182,9 +182,8 @@ def consolidar_semestre_anterior(request):
                     )
 
             df_consolidado = pd.concat(dfs, ignore_index=True)
-            print(df_consolidado)
-            homologador = CalculoHomologacion(df, df, anio, mes)
-            df_consolidado = homologador.execute()
+
+            df_consolidado = calcular_homologacion(df_consolidado, anio, mes)
 
             # Exportar a Excel
             output = io.BytesIO()
