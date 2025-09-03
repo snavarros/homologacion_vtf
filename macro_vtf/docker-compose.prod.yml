@@ -1,0 +1,22 @@
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django_web
+    command: gunicorn macro_vtf.wsgi:application --bind 0.0.0.0:8000 --workers=3
+    volumes:
+      - ./macro_vtf:/app/macro_vtf
+      - sqlite_data:/app/macro_vtf/db
+      - static_volume:/app/macro_vtf/static
+      - media_volume:/app/macro_vtf/media
+    environment:
+      - DJANGO_SETTINGS_MODULE=macro_vtf.settings
+    ports:
+      - "8000:8000"
+
+volumes:
+  sqlite_data:
+  static_volume:
+  media_volume:

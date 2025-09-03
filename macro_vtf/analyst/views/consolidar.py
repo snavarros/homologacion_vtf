@@ -191,7 +191,7 @@ def consolidar_semestre_anterior(request):
                 df_consolidado.to_excel(writer, index=False, sheet_name="Consolidado")
 
             output.seek(0)
-            filename = f"calculo_homologacion_region_{region.id}_{anio_referencia}_semestre.xlsx"
+            filename = f"CALCULO_HOMOLOGACION_{mes:02d}{anio_referencia}_{region}.xlsx"
             response = HttpResponse(
                 output.read(),
                 content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
