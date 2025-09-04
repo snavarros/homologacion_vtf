@@ -1,11 +1,12 @@
-
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_web
+    container_name: django_vtf
     command: gunicorn macro_vtf.wsgi:application --bind 0.0.0.0:8000 --workers=3
+    env_file:
+      - .env
     volumes:
       - ./macro_vtf:/app/macro_vtf
       - sqlite_data:/app/macro_vtf/db
@@ -13,10 +14,22 @@ services:
       - media_volume:/app/macro_vtf/media
     environment:
       - DJANGO_SETTINGS_MODULE=macro_vtf.settings
-    ports:
-      - "8000:8000"
+      # Subdominio para nginx-proxy
+      - VIRTUAL_HOST=vtf.snavarros.cl
+      - LETSENCRYPT_HOST=vtf.snavarros.cl
+      - LETSENCRYPT_EMAIL=tu-correo@snavarros.cl
+      - DATABASE_URL=postgresql://admin:superpassword@postgres-db:5432/cosmetica_db
+    expose:
+      - "8000"
+    networks:
+      - webproxy
+    restart: always
 
 volumes:
   sqlite_data:
   static_volume:
   media_volume:
+
+networks:
+  webproxy:
+    external: true

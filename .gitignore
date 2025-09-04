@@ -20,6 +20,7 @@ media/
 
 # Carpeta de salida de archivos estáticos compilados
 staticfiles/
+/static/
 
 # Archivos de logs
 *.log
