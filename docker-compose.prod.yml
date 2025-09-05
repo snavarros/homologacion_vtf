@@ -10,7 +10,6 @@ services:
     volumes:
       - ./macro_vtf:/app/macro_vtf
       - sqlite_data:/app/macro_vtf/db
-      - static_volume:/app/macro_vtf/static
       - media_volume:/app/macro_vtf/media
     environment:
       - DJANGO_SETTINGS_MODULE=macro_vtf.settings
@@ -26,7 +25,6 @@ services:
 
 volumes:
   sqlite_data:
-  static_volume:
   media_volume:
 
 networks:

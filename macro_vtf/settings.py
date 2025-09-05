@@ -128,10 +128,6 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(
     BASE_DIR, "staticfiles"
 )  # carpeta donde collectstatic copiará los archivos
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),  # si tienes tus propios archivos estáticos
-]
-
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # URL para acceder a archivos media
