@@ -19,3 +19,5 @@ docker exec -it django_vtf python manage.py createsuperuser
 docker exec -it django_vtf bash
 > chown appuser:appuser /app/db/db.sqlite3
 ```
+
+docker exec -it django_vtf bash

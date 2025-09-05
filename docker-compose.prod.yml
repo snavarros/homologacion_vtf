@@ -14,7 +14,6 @@ services:
       - media_volume:/app/macro_vtf/media
     environment:
       - DJANGO_SETTINGS_MODULE=macro_vtf.settings
-      # Subdominio para nginx-proxy
       - VIRTUAL_HOST=vtf.snavarros.cl
       - LETSENCRYPT_HOST=vtf.snavarros.cl
       - LETSENCRYPT_EMAIL=sebastian.navarro.saavedra@gmail.com
