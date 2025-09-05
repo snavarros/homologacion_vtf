@@ -17,7 +17,7 @@ services:
       # Subdominio para nginx-proxy
       - VIRTUAL_HOST=vtf.snavarros.cl
       - LETSENCRYPT_HOST=vtf.snavarros.cl
-      - LETSENCRYPT_EMAIL=tu-correo@snavarros.cl
+      - LETSENCRYPT_EMAIL=sebastian.navarro.saavedra@gmail.com
       - DATABASE_URL=postgresql://admin:superpassword@postgres-db:5432/cosmetica_db
     expose:
       - "8000"

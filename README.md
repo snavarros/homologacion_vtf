@@ -11,11 +11,11 @@ docker-compose up --build -d
 
 Siempre migrar si lo montas con docker (/analyst)
 ```
-docker exec -it django_web python macro_vtf/manage.py migrate
+docker exec -it django_vtf python macro_vtf/manage.py migrate
 
-docker exec -it django_web python manage.py createsuperuser
+docker exec -it django_vtf python manage.py createsuperuser
 ```
 ```
-docker exec -it django_web bash
+docker exec -it django_vtf bash
 > chown appuser:appuser /app/db/db.sqlite3
 ```
